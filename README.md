@@ -9,153 +9,98 @@ An advanced GitHub profile analyzer that uses machine learning to extract deep t
 - User information (name, bio, location, followers, etc.)
 - Repository count and activity metrics
 - Top 3 most used programming languages
+- Flexible username input (URLs, comma-separated, space-separated, or newline-separated)
+- Spelling mistake handling with fuzzy matching
 
 ### 🤖 **AI-Powered Technical Analysis**
 
-- **Technical Domain Classification**: Automatically identifies specialization areas (Web Development, Data Science, DevOps, etc.)
+- **Technical Domain Classification**: Automatically identifies specialization areas
 - **TF-IDF Analysis**: Uses machine learning to extract key technologies and frameworks
-- **Project Type Detection**: Identifies patterns in project types (API Development, Tools & Utilities, etc.)
-- **Technical Interest Scoring**: Quantifies technical engagement and expertise breadth (0-100 scale)
+- **Project Type Detection**: Identifies patterns in project types
+- **Technical Interest Scoring**: Quantifies technical engagement (0-100 scale)
+- **Domain Expertise Validation**: Verifies claimed expertise against actual work
+
+### 🎯 **Domain Expertise Analysis**
+
+- **Claimed vs. Verified Domains**: Compares bio claims with repository evidence
+- **Proficiency Scoring**: Detailed scoring for each technical domain
+- **Expertise Levels**:
+  - 🟢 Expert (70%+ consistency)
+  - 🟡 Intermediate (40-70% consistency)
+  - 🔴 Beginner (<40% consistency)
+- **Enhancement Suggestions**: AI-powered recommendations for profile improvement
 
 ### 📈 **Supported Technical Domains**
 
+- AI/ML & Data Science
 - Web Development
-- Data Science & AI
 - Mobile Development
 - DevOps & Cloud
-- Game Development
 - Cybersecurity
-- Blockchain
-- IoT (Internet of Things)
-- Desktop Applications
-- Database Management
+- Game Development
+- Embedded/IoT
+- And more...
 
 ### 💾 **Export Options**
 
 - Individual JSON files for each user
 - Combined technical analysis results
+- Formatted CSV exports
 - Local file storage with organized structure
 
-## 🛠️ Installation
+## 🔬 How the Analysis Works
 
-### Prerequisites
-
-- Python 3.7+
-- pip package manager
-
-### Setup
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/github-profile-extractor.git
-   cd github-profile-extractor
-   ```
-
-2. **Create virtual environment** (recommended)
-
-   ```bash
-   python -m venv py_env
-   # Windows
-   py_env\Scripts\activate
-   # Mac/Linux
-   source py_env/bin/activate
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pip install streamlit requests pandas scikit-learn nltk textblob numpy
-   ```
-
-## 🚀 Usage
-
-1. **Start the application**
-
-   ```bash
-   streamlit run program.py
-   ```
-
-2. **Open your browser** and navigate to `http://localhost:8501`
-
-3. **Enter GitHub usernames** (comma-separated for multiple users)
-
-   ```
-   Example: octocat, defunkt, torvalds
-   ```
-
-4. **View results** including:
-
-   - 🔧 Top Programming Languages
-   - 🎯 Technical Domains
-   - 🚀 Project Types
-   - ⚡ Key Technologies
-   - 📊 Technical Interest Score
-
-5. **Download analysis** as JSON for further processing
-
-## 📁 Project Structure
-
-```
-github-profile-extractor/
-├── program.py                 # Main Streamlit application
-├── .gitignore                # Git ignore rules
-├── README.md                 # This file
-└── github_data_exports/      # Generated data (not tracked in git)
-    ├── user1_github_data.json
-    └── user2_github_data.json
-```
-
-## 🔬 How the ML Analysis Works
-
-### **1. Data Collection**
-
-- Fetches repository names, descriptions, and topics from GitHub API
-- Combines textual data for comprehensive analysis
-
-### **2. Domain Classification**
-
-- Uses keyword matching against predefined technical domains
-- Scores domains based on keyword frequency and relevance
-
-### **3. TF-IDF Analysis**
+### **1. Domain Expertise Validation**
 
 ```python
-vectorizer = TfidfVectorizer(
-    max_features=50,
-    stop_words="english",
-    ngram_range=(1, 2),
-    min_df=1
+# Three-factor scoring for each domain
+repo_score = matching_repos / total_repos * 100       # 40% weight
+lang_score = matching_languages / expected * 100       # 30% weight
+domain_match = ML_analysis_confirmation * 100         # 30% weight
+
+final_score = (repo_score * 0.4 + lang_score * 0.3 + domain_match * 0.3)
+```
+
+### **2. Profile Consistency Check**
+
+- Analyzes bio claims against repository evidence
+- Validates programming languages and frameworks
+- Checks project types and technical domains
+- Generates improvement suggestions
+
+### **3. Technical Interest Score**
+
+```python
+interest_score = (
+    (repo_count / 50) * 30 +           # Repository activity
+    (language_diversity / 10) * 15 +    # Language diversity
+    (domain_breadth / 5) * 15 +        # Domain breadth
+    (avg_stars / 100) * 15 +           # Project impact
+    (recent_activity / 20) * 15 +      # Recent engagement
+    (follower_count / 500) * 10        # Community influence
 )
 ```
-
-- **Term Frequency-Inverse Document Frequency** identifies important technical terms
-- Discovers frameworks and technologies specific to each developer
-
-### **4. Pattern Recognition**
-
-- Analyzes repository patterns to identify project types
-- Uses boolean logic and text matching for classification
-
-### **5. Interest Scoring**
-
-```python
-interest_score = len(repos) * 10 + len(languages) * 5 + len(domains) * 3
-```
-
-- Combines repository activity, language diversity, and domain breadth
-- Provides quantified technical engagement metric
 
 ## 📊 Example Output
 
 ```json
 {
-  "username": "octocat",
-  "name": "The Octocat",
-  "primary_languages": ["JavaScript", "Ruby", "Python"],
-  "technical_domains": ["Web Development", "DevOps"],
-  "project_types": ["API Development", "Tools & Utilities"],
-  "key_technologies": ["react", "docker", "nodejs", "rails"],
-  "technical_interest_score": 85
+  "username": "developer123",
+  "name": "Jane Developer",
+  "domain_expertise": {
+    "claimed_domains": ["AI/ML", "Web Development"],
+    "verified_domains": ["Web Development", "DevOps"],
+    "consistency_scores": {
+      "AI/ML": 35.5,
+      "Web Development": 85.2,
+      "DevOps": 72.1
+    },
+    "suggestions": [
+      "Consider adding more AI/ML projects to support expertise claim",
+      "Strong DevOps work could be highlighted in bio"
+    ]
+  },
+  "technical_interest_score": 78.5
 }
 ```
 
